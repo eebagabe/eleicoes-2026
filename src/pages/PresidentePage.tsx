@@ -11,7 +11,7 @@ export function PresidentePage() {
   return (
     <>
       <h1 className="page-title">Presidente da República</h1>
-      <p className="page-subtitle">Resultado {abrangencia === 'br' ? 'nacional' : `em ${nome}`} — 1º turno, 4 de outubro de 2026</p>
+      <p className="page-subtitle">Resultado {abrangencia === 'br' ? 'nacional' : `em ${nome}`} · 1º turno, 4 de outubro de 2026</p>
 
       <div className="filtro-abrangencia">
         <label htmlFor="abr">Ver resultado em</label>

@@ -24,7 +24,7 @@ export function PainelResultado({ cargo, abrangencia, turno = 1 }: Props) {
       <ProgressoApuracao resultado={data} loading={loading} onRefresh={refresh} />
       {data.vagas > 1 && (
         <p className="aviso-vagas">
-          {data.vagas} vagas em disputa — os {data.vagas} mais votados são eleitos.
+          {data.vagas} vagas em disputa. Os {data.vagas} mais votados são eleitos.
         </p>
       )}
       <div className="lista-candidatos">

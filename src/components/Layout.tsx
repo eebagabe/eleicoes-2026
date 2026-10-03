@@ -51,7 +51,7 @@ export function Layout() {
         <div className="container">
           Dados oficiais do{' '}
           <a href="https://resultados.tse.jus.br" target="_blank" rel="noreferrer">
-            TSE — Divulgação de Resultados
+            TSE (Divulgação de Resultados)
           </a>
           . Projeto independente, sem vínculo com a Justiça Eleitoral.{' '}
           <button className="link-simulacao" onClick={alternarSimulacao}>

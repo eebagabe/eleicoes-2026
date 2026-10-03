@@ -29,7 +29,7 @@ export function EstadosPage() {
   return (
     <>
       <h1 className="page-title">{uf.nome}</h1>
-      <p className="page-subtitle">Governador, senadores e deputados — região {uf.regiao}</p>
+      <p className="page-subtitle">Governador, senadores e deputados · Região {uf.regiao}</p>
 
       <div className="filtro-abrangencia">
         <label htmlFor="uf">Estado</label>

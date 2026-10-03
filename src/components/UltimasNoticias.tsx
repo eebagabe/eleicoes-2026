@@ -15,7 +15,7 @@ export function UltimasNoticias({ quantidade = 6 }: { quantidade?: number }) {
         ))}
       </div>
       <Link className="link-mais" to="/noticias">
-        Ver todas as notícias →
+        Ver todas as notícias
       </Link>
     </section>
   )

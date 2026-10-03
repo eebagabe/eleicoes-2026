@@ -124,7 +124,7 @@ export function TabelaProporcional({ cargo, uf }: Props) {
           const cor = corPartido(c.partido)
           return (
             <div className={`linha ${c.eleito ? 'linha-eleito' : ''}`} key={c.sqcand}>
-              <span className="linha-pos">{c.votos > 0 ? `${rank.get(c.sqcand)}º` : '—'}</span>
+              <span className="linha-pos">{c.votos > 0 ? `${rank.get(c.sqcand)}º` : ''}</span>
               <FotoCandidato src={c.foto} nome={c.nome} cor={cor} size={44} />
               <div className="linha-info">
                 <strong>{titleCase(c.nome)}</strong>

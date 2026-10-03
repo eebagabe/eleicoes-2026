@@ -1,4 +1,4 @@
-# Apuração 2026 — Eleições ao vivo
+# Apuração 2026: eleições ao vivo
 
 App React + TypeScript (Vite) para acompanhar em tempo real a apuração das Eleições 2026:
 presidente, governadores, senadores, deputados federais e estaduais/distritais, por estado,
@@ -8,8 +8,8 @@ com fotos dos candidatos e últimas notícias.
 
 - **Resultados**: API pública de divulgação do TSE (`resultados.tse.jus.br/oficial/ele2026/...`),
   consultada direto do navegador (o TSE libera CORS). Atualização a cada 30s.
-  - `6257` / `6258` — eleição federal (Presidente), 1º / 2º turno
-  - `6259` / `6260` — eleição estadual (Governador, Senador, Deputados), 1º / 2º turno
+  - `6257` / `6258`: eleição federal (Presidente), 1º / 2º turno
+  - `6259` / `6260`: eleição estadual (Governador, Senador, Deputados), 1º / 2º turno
   - Arquivo por cargo e abrangência: `/{eleicao}/dados/{uf}/{uf}-c{cargo}-e{eleicao}-u.json`
   - Fotos: `/{eleicao}/fotos/{uf}/{sqcand}.jpeg`
 - **Notícias**: RSS do g1 Política e do Google Notícias, agregados pela função serverless

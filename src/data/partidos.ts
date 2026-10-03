@@ -1,4 +1,4 @@
-// Cores aproximadas das identidades visuais dos partidos — usadas nas barras e destaques.
+// Cores aproximadas das identidades visuais dos partidos, usadas nas barras e destaques.
 const CORES: Record<string, string> = {
   PT: '#c4161c',
   PL: '#1f3c88',

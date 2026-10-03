@@ -70,7 +70,7 @@ export function MapaBrasil({ selecionada, onSelect }: Props) {
             .sort((a, b) => b.ufs - a.ufs)
             .map((l) => (
               <span key={l.nome}>
-                <i style={{ background: l.cor }} /> {l.nome} — {l.ufs} UF{l.ufs > 1 ? 's' : ''}
+                <i style={{ background: l.cor }} /> {l.nome}: {l.ufs} UF{l.ufs > 1 ? 's' : ''}
               </span>
             ))}
         </div>
