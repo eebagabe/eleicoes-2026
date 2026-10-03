@@ -1,32 +1,43 @@
-# React + TypeScript + Vite
+# Apuração 2026 — Eleições ao vivo
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+App React + TypeScript (Vite) para acompanhar em tempo real a apuração das Eleições 2026:
+presidente, governadores, senadores, deputados federais e estaduais/distritais, por estado,
+com fotos dos candidatos e últimas notícias.
 
-Currently, two official plugins are available:
+## Fontes de dados
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Resultados**: API pública de divulgação do TSE (`resultados.tse.jus.br/oficial/ele2026/...`),
+  consultada direto do navegador (o TSE libera CORS). Atualização a cada 30s.
+  - `6257` / `6258` — eleição federal (Presidente), 1º / 2º turno
+  - `6259` / `6260` — eleição estadual (Governador, Senador, Deputados), 1º / 2º turno
+  - Arquivo por cargo e abrangência: `/{eleicao}/dados/{uf}/{uf}-c{cargo}-e{eleicao}-u.json`
+  - Fotos: `/{eleicao}/fotos/{uf}/{sqcand}.jpeg`
+- **Notícias**: RSS do g1 Política e do Google Notícias, agregados pela função serverless
+  `api/news.ts` (feeds RSS não liberam CORS). Uso pessoal/não comercial, conforme os termos do Google Notícias.
 
-## React Compiler
+## Rodando
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev     # http://localhost:5173 (inclui /api/news via middleware do Vite)
+npm run build
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Antes da apuração começar os votos ficam zerados. Use o link **"Ver simulação da apuração"** no
+rodapé para ver o app com votos fictícios.
+
+## Deploy na Vercel
+
+1. Suba o repositório no GitHub e importe na Vercel (framework detectado: Vite).
+2. Nada a configurar: `vercel.json` faz o fallback de rotas para o SPA e `api/news.ts` vira função serverless.
+
+## Estrutura
+
+```
+api/news.ts            função serverless de notícias
+src/api/tse.ts         cliente da API do TSE + normalização
+src/api/simulacao.ts   modo simulação
+src/hooks/usePolling   polling com pausa quando a aba está oculta
+src/components/        cards, mapa do Brasil, tabelas, notícias
+src/pages/             Presidente, Estados, Notícias
+```
