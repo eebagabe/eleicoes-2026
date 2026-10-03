@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { POLL_INTERVAL_MS } from '../config'
 
 export interface PollingState<T> {
@@ -18,27 +18,26 @@ export function usePolling<T>(
   fetcher: (signal: AbortSignal) => Promise<T>,
   interval = POLL_INTERVAL_MS,
 ): PollingState<T> {
-  const [state, setState] = useState<{ key: string; data?: T; error?: Error; lastFetch?: Date }>({ key })
-  const [loading, setLoading] = useState(true)
+  const [state, setState] = useState<{ key: string; tick?: number; data?: T; error?: Error; lastFetch?: Date }>({
+    key,
+  })
   const [tick, setTick] = useState(0)
   const fetcherRef = useRef(fetcher)
-  fetcherRef.current = fetcher
+  useLayoutEffect(() => {
+    fetcherRef.current = fetcher
+  })
 
   const refresh = useCallback(() => setTick((t) => t + 1), [])
 
   useEffect(() => {
     const ctrl = new AbortController()
-    setLoading(true)
     fetcherRef
       .current(ctrl.signal)
-      .then((data) => setState({ key, data, lastFetch: new Date() }))
+      .then((data) => setState({ key, tick, data, lastFetch: new Date() }))
       .catch((error: Error) => {
         if (ctrl.signal.aborted) return
         // mantém último dado válido da mesma chave em caso de falha transitória
-        setState((prev) => ({ ...(prev.key === key ? prev : { key }), error, lastFetch: new Date() }))
-      })
-      .finally(() => {
-        if (!ctrl.signal.aborted) setLoading(false)
+        setState((prev) => ({ ...(prev.key === key ? prev : { key }), tick, error, lastFetch: new Date() }))
       })
     return () => ctrl.abort()
   }, [key, tick])
@@ -55,11 +54,11 @@ export function usePolling<T>(
     }
   }, [interval, refresh, key])
 
-  const current = state.key === key ? state : { key }
+  const current = state.key === key ? state : { key, tick: undefined }
   return {
     data: current.data,
     error: current.data ? undefined : current.error,
-    loading,
+    loading: current.tick !== tick,
     lastFetch: current.lastFetch,
     refresh,
   }
