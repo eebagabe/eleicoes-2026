@@ -20,6 +20,7 @@
   --shadow: none;
   --radius: 12px;
 
+  color-scheme: light dark;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color: var(--text);
   background: var(--bg);
@@ -120,13 +121,41 @@ img {
   color: var(--amarelo-escuro);
 }
 
-.live-badge {
+/* alternância Ao vivo / Simulação */
+.modo {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.modo button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  border: none;
+  background: transparent;
   color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.modo button:hover {
+  color: var(--text);
+}
+
+.modo button.ativo {
+  background: var(--surface);
+  color: var(--text);
+  cursor: default;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.modo button:not(.ativo) .live-dot {
+  background: var(--text-muted);
+  animation: none;
 }
 
 .live-dot {
@@ -214,8 +243,37 @@ main {
   font-size: 0.85rem;
 }
 
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+}
+
+.footer p {
+  margin: 0;
+}
+
 .footer a {
-  color: var(--azul-claro);
+  color: var(--azul);
+}
+
+.autor {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text) !important;
+  transition: border-color 0.15s;
+}
+
+.autor:hover {
+  border-color: var(--amarelo);
 }
 
 .faixa-simulacao {
@@ -224,17 +282,5 @@ main {
   color: var(--text);
   text-align: center;
   padding: 8px 16px;
-  font-size: 0.9rem;
-}
-.faixa-simulacao button,
-.link-simulacao {
-  border: none;
-  background: none;
-  color: var(--azul-claro);
-  text-decoration: underline;
-  font-weight: 700;
-  padding: 0 4px;
-}
-.faixa-simulacao button {
-  color: var(--azul);
+  font-size: 0.85rem;
 }
