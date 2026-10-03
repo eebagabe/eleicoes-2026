@@ -10,6 +10,7 @@ export const ELEICOES = {
 } as const
 
 export const POLL_INTERVAL_MS = 30_000
+export const POLL_INTERVAL_SIMULACAO_MS = 5_000
 
 export type CargoId = 1 | 3 | 5 | 6 | 7 | 8
 

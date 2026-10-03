@@ -230,3 +230,23 @@ main {
 .footer a {
   color: var(--azul-claro);
 }
+
+.faixa-simulacao {
+  background: repeating-linear-gradient(45deg, var(--amarelo), var(--amarelo) 14px, #ffe94d 14px, #ffe94d 28px);
+  color: var(--azul);
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+.faixa-simulacao button,
+.link-simulacao {
+  border: none;
+  background: none;
+  color: var(--azul-claro);
+  text-decoration: underline;
+  font-weight: 700;
+  padding: 0 4px;
+}
+.faixa-simulacao button {
+  color: var(--azul);
+}

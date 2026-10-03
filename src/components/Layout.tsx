@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { alternarSimulacao, simulacaoAtiva } from '../api/simulacao'
 
 function Logo() {
   return (
@@ -12,8 +13,15 @@ function Logo() {
 }
 
 export function Layout() {
+  const simulando = simulacaoAtiva()
   return (
     <>
+      {simulando && (
+        <div className="faixa-simulacao">
+          <strong>Modo simulação:</strong> os votos exibidos são fictícios, gerados sobre os candidatos reais.
+          <button onClick={alternarSimulacao}>Voltar aos dados oficiais</button>
+        </div>
+      )}
       <header className="header">
         <div className="container header-inner">
           <NavLink to="/" className="brand">
@@ -45,7 +53,10 @@ export function Layout() {
           <a href="https://resultados.tse.jus.br" target="_blank" rel="noreferrer">
             TSE — Divulgação de Resultados
           </a>
-          . Projeto independente, sem vínculo com a Justiça Eleitoral.
+          . Projeto independente, sem vínculo com a Justiça Eleitoral.{' '}
+          <button className="link-simulacao" onClick={alternarSimulacao}>
+            {simulando ? 'Desativar simulação' : 'Ver simulação da apuração'}
+          </button>
         </div>
       </footer>
     </>

@@ -1,3 +1,4 @@
+import { simular } from './simulacao'
 import { CARGOS, CICLO, ELEICOES, TSE_BASE, type CargoId, type Turno } from '../config'
 
 /* ---------- Formato bruto do TSE (arquivo "-u.json") ---------- */
@@ -178,5 +179,5 @@ export async function buscarResultado(
   }
   if (!res.ok) throw new Error(`TSE respondeu ${res.status}`)
   const raw = (await res.json()) as RawResultado
-  return normalizar(raw, cargo, turno)
+  return simular(normalizar(raw, cargo, turno))
 }

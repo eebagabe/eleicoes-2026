@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { POLL_INTERVAL_MS } from '../config'
+import { simulacaoAtiva } from '../api/simulacao'
+import { POLL_INTERVAL_MS, POLL_INTERVAL_SIMULACAO_MS } from '../config'
+
+const INTERVALO_PADRAO = simulacaoAtiva() ? POLL_INTERVAL_SIMULACAO_MS : POLL_INTERVAL_MS
 
 export interface PollingState<T> {
   data: T | undefined
@@ -16,7 +19,7 @@ export interface PollingState<T> {
 export function usePolling<T>(
   key: string,
   fetcher: (signal: AbortSignal) => Promise<T>,
-  interval = POLL_INTERVAL_MS,
+  interval = INTERVALO_PADRAO,
 ): PollingState<T> {
   const [state, setState] = useState<{ key: string; tick?: number; data?: T; error?: Error; lastFetch?: Date }>({
     key,
