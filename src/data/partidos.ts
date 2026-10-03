@@ -32,8 +32,25 @@ const CORES: Record<string, string> = {
   DEMOCRATA: '#1565c0',
 }
 
-const FALLBACK = ['#002776', '#009c3b', '#e6b800', '#1e4fb8', '#19c45c', '#7a5c00', '#4f6fb3', '#2f7d5b']
+const FALLBACK = ['#24406e', '#3d8b63', '#d4a82a', '#4a6fa5', '#6b9e7f', '#8a7346', '#7d8fb3', '#5c7d6b']
+
+/** Dessatura e clareia a cor para um visual mais calmo. */
+function suavizar(hex: string) {
+  const n = parseInt(hex.slice(1), 16)
+  const rgb = [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+  const cinza = (rgb[0] + rgb[1] + rgb[2]) / 3
+  const [r, g, b] = rgb.map((c) => Math.round((c * 0.7 + cinza * 0.3) * 0.82 + 255 * 0.18))
+  return `rgb(${r}, ${g}, ${b})`
+}
+
+const cache = new Map<string, string>()
 
 export function corPartido(sigla: string, indice = 0) {
-  return CORES[sigla] ?? CORES[sigla.toUpperCase()] ?? FALLBACK[indice % FALLBACK.length]
+  const base = CORES[sigla] ?? CORES[sigla.toUpperCase()] ?? FALLBACK[indice % FALLBACK.length]
+  let cor = cache.get(base)
+  if (!cor) {
+    cor = suavizar(base)
+    cache.set(base, cor)
+  }
+  return cor
 }

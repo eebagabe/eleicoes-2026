@@ -93,7 +93,8 @@ export function TabelaProporcional({ cargo, uf }: Props) {
                 setLimite(PAGINA)
               }}
             >
-              <span className="partido-chip" style={{ background: corPartido(p.sigla, i) }}>
+              <span className="partido-chip">
+                <i style={{ background: corPartido(p.sigla, i) }} />
                 {p.sigla}
               </span>
               <strong>{totalEleitos > 0 ? p.eleitos : p.candidatos}</strong>
@@ -129,7 +130,8 @@ export function TabelaProporcional({ cargo, uf }: Props) {
               <div className="linha-info">
                 <strong>{titleCase(c.nome)}</strong>
                 <span>
-                  <span className="partido-chip" style={{ background: cor }}>
+                  <span className="partido-chip">
+                    <i style={{ background: cor }} />
                     {c.partido}
                   </span>{' '}
                   {c.numero}

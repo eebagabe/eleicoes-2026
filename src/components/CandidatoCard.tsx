@@ -29,7 +29,8 @@ export function CandidatoCard({ candidato, posicao, destaque }: Props) {
           <Situacao candidato={candidato} />
         </div>
         <div className="candidato-partido">
-          <span className="partido-chip" style={{ background: cor }}>
+          <span className="partido-chip">
+            <i style={{ background: cor }} />
             {candidato.partido}
           </span>
           <span className="candidato-numero">{candidato.numero}</span>

@@ -4,9 +4,9 @@ import { alternarSimulacao, simulacaoAtiva } from '../api/simulacao'
 function Logo() {
   return (
     <svg className="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
-      <rect width="40" height="40" rx="10" fill="#009c3b" />
-      <path d="M20 6 L35 20 L20 34 L5 20 Z" fill="#ffdf00" />
-      <circle cx="20" cy="20" r="8" fill="#002776" />
+      <rect width="40" height="40" rx="10" fill="#3d8b63" />
+      <path d="M20 6 L35 20 L20 34 L5 20 Z" fill="#e9c46a" />
+      <circle cx="20" cy="20" r="8" fill="#24406e" />
       <path d="M12.5 18.5 Q20 16 27.5 20.5" stroke="#fff" strokeWidth="1.6" fill="none" />
     </svg>
   )
