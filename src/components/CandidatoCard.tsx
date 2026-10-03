@@ -21,7 +21,7 @@ export function CandidatoCard({ candidato, posicao, destaque }: Props) {
   const vice = candidato.vices.find((v) => v.tipo === 'v')
   return (
     <article className={`candidato ${destaque ? 'candidato-destaque' : ''}`}>
-      <div className="candidato-posicao">{posicao + 1}º</div>
+      <div className="candidato-posicao">{candidato.votos > 0 ? `${posicao + 1}º` : '—'}</div>
       <FotoCandidato src={candidato.foto} nome={candidato.nome} cor={cor} size={destaque ? 88 : 64} />
       <div className="candidato-info">
         <div className="candidato-nome-linha">
