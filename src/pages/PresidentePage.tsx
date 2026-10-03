@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MapaBrasil } from '../components/MapaBrasil'
 import { PainelResultado } from '../components/PainelResultado'
 import { UFS } from '../data/ufs'
 
@@ -25,7 +26,17 @@ export function PresidentePage() {
         </select>
       </div>
 
-      <PainelResultado cargo={1} abrangencia={abrangencia} />
+      <div className="layout-presidente">
+        <PainelResultado cargo={1} abrangencia={abrangencia} />
+        <MapaBrasil
+          selecionada={abrangencia.toUpperCase()}
+          onSelect={(sigla) => {
+            const nova = sigla.toLowerCase()
+            setAbrangencia(abrangencia === nova ? 'br' : nova)
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+        />
+      </div>
     </>
   )
 }

@@ -139,7 +139,7 @@ select:focus, input[type='search']:focus {
 .foto-iniciais { width: 100%; height: 100%; display: grid; place-items: center; color: #fff; font-weight: 800; }
 
 /* ---------- Resumo ---------- */
-.resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 30%), 1fr)); gap: 10px; }
 .resumo-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; border-top: 4px solid var(--amarelo); }
 .resumo-item:nth-child(even) { border-top-color: var(--azul); }
 .resumo-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); font-weight: 700; }
@@ -245,4 +245,42 @@ select:focus, input[type='search']:focus {
 @media (max-width: 640px) {
   .linha { grid-template-columns: auto 1fr auto; padding: 10px 12px; }
   .linha-pos { display: none; }
+}
+
+/* ---------- Mapa ---------- */
+.mapa-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 52px));
+  grid-auto-rows: 52px;
+  gap: 5px;
+  justify-content: center;
+}
+.mapa-uf {
+  border: none;
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.mapa-uf[style*='background'] { color: #fff; }
+.mapa-uf:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(0, 39, 118, 0.25); }
+.mapa-uf.ativo { outline: 3px solid var(--amarelo); outline-offset: 2px; }
+.mapa-uf small { font-size: 0.7rem; opacity: 0.9; }
+.mapa-legenda { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: 0.85rem; justify-content: center; }
+.mapa-legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; }
+.mapa-vazio { margin: 12px 0 0; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+@media (max-width: 420px) {
+  .mapa-grid { grid-template-columns: repeat(7, minmax(0, 42px)); grid-auto-rows: 42px; gap: 4px; }
+}
+
+.layout-presidente { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; align-items: start; }
+.layout-presidente .mapa { position: sticky; top: 96px; }
+@media (max-width: 960px) {
+  .layout-presidente { grid-template-columns: 1fr; }
+  .layout-presidente .mapa { position: static; order: -1; }
 }
