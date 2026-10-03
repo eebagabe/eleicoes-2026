@@ -1,0 +1,40 @@
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 20px; }
+.chips button {
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.chips button:hover { border-color: var(--amarelo-escuro); }
+.chips button.ativo { background: var(--amarelo); border-color: var(--amarelo); color: var(--azul); }
+
+.noticias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.noticia {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.noticia:hover { transform: translateY(-2px); border-color: var(--amarelo-escuro); }
+.noticia-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface-2); }
+.noticia-corpo { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; }
+.noticia-meta { display: flex; gap: 8px; font-size: 0.75rem; color: var(--text-muted); align-items: center; }
+.noticia-fonte { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--verde); }
+.noticia-titulo { margin: 0; font-size: 1rem; line-height: 1.35; font-weight: 700; }
+.noticia-resumo { margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.45; }
+
+.noticias-lista { display: flex; flex-direction: column; }
+.noticia-compacta { border: none; border-radius: 0; box-shadow: none; border-bottom: 1px solid var(--border); background: transparent; }
+.noticia-compacta:hover { transform: none; }
+.noticia-compacta:hover .noticia-titulo { color: var(--azul-claro); }
+.noticia-compacta .noticia-corpo { padding: 10px 0; }
+.noticia-compacta .noticia-titulo { font-size: 0.92rem; }
+.link-mais { display: inline-block; margin-top: 12px; font-weight: 700; color: var(--azul-claro); text-decoration: none; }

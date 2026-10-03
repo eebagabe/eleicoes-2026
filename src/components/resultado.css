@@ -279,8 +279,8 @@ select:focus, input[type='search']:focus {
 }
 
 .layout-presidente { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; align-items: start; }
-.layout-presidente .mapa { position: sticky; top: 96px; }
+.lateral { display: flex; flex-direction: column; gap: 20px; }
 @media (max-width: 960px) {
   .layout-presidente { grid-template-columns: 1fr; }
-  .layout-presidente .mapa { position: static; order: -1; }
+  .lateral { order: -1; }
 }
