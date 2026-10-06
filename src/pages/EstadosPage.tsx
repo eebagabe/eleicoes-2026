@@ -33,7 +33,7 @@ export function EstadosPage() {
 
       <div className="filtro-abrangencia">
         <label htmlFor="uf">Estado</label>
-        <select id="uf" value={uf.sigla} onChange={(e) => navigate(`/estados/${e.target.value}?${params}`)}>
+        <select id="uf" value={uf.sigla} onChange={(e) => navigate(`/1-turno/estados/${e.target.value}?${params}`)}>
           {ufsOrdenadas.map((u) => (
             <option key={u.sigla} value={u.sigla}>
               {u.nome}

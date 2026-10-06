@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function ProgressoApuracao({ resultado, loading, onRefresh }: Props) {
-  const { secoes, atualizadoEm, totalizacaoFinal } = resultado
+  const { secoes, atualizadoEm, totalizacaoFinal, previa } = resultado
   return (
     <section className="progresso card">
       <div className="progresso-top">
@@ -23,11 +23,15 @@ export function ProgressoApuracao({ resultado, loading, onRefresh }: Props) {
           {totalizacaoFinal ? (
             <span className="tag tag-verde">Totalização concluída</span>
           ) : secoes.totalizadas === 0 ? (
-            <span className="tag tag-amarelo">Aguardando início da apuração</span>
+            <span className="tag tag-amarelo">
+              {resultado.turno === 2 ? 'Votação em 25 de outubro' : 'Aguardando início da apuração'}
+            </span>
           ) : (
             <span className="tag tag-azul">Apuração em andamento</span>
           )}
-          <div className="progresso-sub">Atualizado pelo TSE em {atualizadoEm}</div>
+          <div className="progresso-sub">
+            {previa ? 'Classificados no 1º turno. O TSE ainda não publicou os dados do 2º turno.' : `Atualizado pelo TSE em ${atualizadoEm}`}
+          </div>
           <button className="btn-refresh" onClick={onRefresh} disabled={loading}>
             <span className={loading ? 'spin' : undefined}>↻</span> {loading ? 'Atualizando…' : 'Atualizar'}
           </button>

@@ -12,6 +12,8 @@ com fotos dos candidatos e últimas notícias.
   - `6259` / `6260`: eleição estadual (Governador, Senador, Deputados), 1º / 2º turno
   - Arquivo por cargo e abrangência: `/{eleicao}/dados/{uf}/{uf}-c{cargo}-e{eleicao}-u.json`
   - Fotos: `/{eleicao}/fotos/{uf}/{sqcand}.jpeg`
+  - Enquanto o TSE não publica os arquivos do 2º turno (404), o app monta o confronto com os
+    candidatos marcados como `2º turno` no resultado final do 1º turno, com votos zerados.
 - **Notícias**: RSS do g1 Política e do Google Notícias, agregados pela função serverless
   `api/news.ts` (feeds RSS não liberam CORS). Uso pessoal/não comercial, conforme os termos do Google Notícias.
 
@@ -39,5 +41,5 @@ src/api/tse.ts         cliente da API do TSE + normalização
 src/api/simulacao.ts   modo simulação
 src/hooks/usePolling   polling com pausa quando a aba está oculta
 src/components/        cards, mapa do Brasil, tabelas, notícias
-src/pages/             Presidente, Estados, Notícias
+src/pages/             Presidente e Governadores (2º turno), arquivo do 1º turno, Notícias
 ```

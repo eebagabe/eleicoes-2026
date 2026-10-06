@@ -284,3 +284,50 @@ select:focus, input[type='search']:focus {
 @media (max-width: 960px) {
   .layout-presidente { grid-template-columns: 1fr; }
 }
+
+/* ---------- Duelo (2º turno) ---------- */
+.duelo { padding: 24px 20px 18px; }
+.duelo-lados { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 12px; }
+.duelo-lado { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; min-width: 0; }
+.duelo-lado .foto { margin-bottom: 6px; }
+.duelo-nome { font-size: 1.15rem; font-weight: 600; line-height: 1.2; }
+.duelo-partido { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+.duelo-lado .candidato-vice { font-size: 0.8rem; color: var(--text-muted); max-width: 100%; }
+.duelo-pct { margin-top: 8px; font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.duelo-lider .duelo-pct { color: var(--azul); }
+.duelo-x { align-self: center; font-size: 1.4rem; color: var(--text-muted); padding-top: 8px; }
+.duelo-barra { position: relative; display: flex; height: 14px; margin-top: 22px; border-radius: 999px; overflow: hidden; background: var(--surface-2); }
+.duelo-barra > div { transition: flex-grow 0.8s ease; }
+.duelo-barra-vazia { flex: 1; }
+.duelo-meio { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 2px; margin-left: -1px; background: var(--surface); }
+.duelo-rodape { margin: 10px 0 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
+@media (max-width: 520px) {
+  .duelo { padding: 18px 12px 14px; }
+  .duelo-lado .foto { width: 72px !important; height: 72px !important; }
+  .duelo-nome { font-size: 0.98rem; }
+  .duelo-lado .candidato-vice { display: none; }
+}
+
+.grade-duelos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.duelo-mini { display: flex; flex-direction: column; gap: 10px; padding: 16px; color: inherit; text-decoration: none; transition: border-color 0.15s; }
+.duelo-mini:hover { border-color: var(--amarelo); }
+.duelo-mini-topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.duelo-mini-topo span { font-size: 0.78rem; color: var(--text-muted); }
+.duelo-mini-linha { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
+.duelo-mini-info { display: flex; flex-direction: column; min-width: 0; }
+.duelo-mini-info span { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.duelo-mini-info small { font-size: 0.75rem; color: var(--text-muted); }
+.duelo-mini-linha > strong { font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.duelo-mini-linha.duelo-lider > strong { color: var(--azul); }
+.duelo-barra-fina { height: 6px; margin-top: 2px; }
+
+.voltar { font-size: 0.9rem; color: var(--azul); text-decoration: none; }
+.voltar:hover { text-decoration: underline; }
+.nota-rodape { margin-top: 24px; font-size: 0.85rem; color: var(--text-muted); }
+
+/* ---------- Arquivo do 1º turno ---------- */
+.arquivo-turno { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text-muted); }
+.subnav { display: flex; gap: 4px; margin-left: auto; }
+.subnav a { padding: 6px 12px; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-weight: 500; }
+.subnav a:hover { color: var(--text); }
+.subnav a.active { background: var(--surface-2); color: var(--text); }

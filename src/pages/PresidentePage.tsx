@@ -2,16 +2,19 @@ import { useState } from 'react'
 import { MapaBrasil } from '../components/MapaBrasil'
 import { PainelResultado } from '../components/PainelResultado'
 import { UltimasNoticias } from '../components/UltimasNoticias'
+import type { Turno } from '../config'
 import { UFS } from '../data/ufs'
 
-export function PresidentePage() {
+const DATAS: Record<Turno, string> = { 1: '1º turno, 4 de outubro de 2026', 2: '2º turno, 25 de outubro de 2026' }
+
+export function PresidentePage({ turno = 2 }: { turno?: Turno }) {
   const [abrangencia, setAbrangencia] = useState('br')
   const nome = abrangencia === 'br' ? 'Brasil' : UFS.find((u) => u.sigla.toLowerCase() === abrangencia)?.nome
 
   return (
     <>
       <h1 className="page-title">Presidente da República</h1>
-      <p className="page-subtitle">Resultado {abrangencia === 'br' ? 'nacional' : `em ${nome}`} · 1º turno, 4 de outubro de 2026</p>
+      <p className="page-subtitle">Resultado {abrangencia === 'br' ? 'nacional' : `em ${nome}`} · {DATAS[turno]}</p>
 
       <div className="filtro-abrangencia">
         <label htmlFor="abr">Ver resultado em</label>
@@ -28,9 +31,10 @@ export function PresidentePage() {
       </div>
 
       <div className="layout-presidente">
-        <PainelResultado cargo={1} abrangencia={abrangencia} />
+        <PainelResultado cargo={1} abrangencia={abrangencia} turno={turno} />
         <aside className="lateral">
           <MapaBrasil
+            turno={turno}
             selecionada={abrangencia.toUpperCase()}
             onSelect={(sigla) => {
               const nova = sigla.toLowerCase()
@@ -38,7 +42,7 @@ export function PresidentePage() {
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
           />
-          <UltimasNoticias />
+          {turno === 2 && <UltimasNoticias />}
         </aside>
       </div>
     </>

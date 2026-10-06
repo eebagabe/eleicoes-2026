@@ -47,9 +47,11 @@ const FASES = 4 // força de cada candidato muda ao longo da apuração (início
  * pode mudar no meio do caminho. Os votos são a soma dos lotes, então nunca diminuem.
  */
 function acumular(r: Resultado, semente: string, progresso: number): number[] {
-  // cauda longa: em cada fase poucos candidatos concentram os votos
+  // cauda longa: em cada fase poucos candidatos concentram os votos; num duelo a disputa fica apertada
+  const duelo = r.candidatos.length <= 2
+  const forca = (h: number) => (duelo ? 1 + h * 0.5 : Math.pow(h, 4) + 0.002)
   const fases = r.candidatos.map((c) =>
-    Array.from({ length: FASES }, (_, f) => Math.pow(hash(`${semente}|${c.sqcand}|${r.abrangencia}|${f}`), 4) + 0.002),
+    Array.from({ length: FASES }, (_, f) => forca(hash(`${semente}|${c.sqcand}|${r.abrangencia}|${r.turno}|${f}`))),
   )
   const acumulado = new Array<number>(r.candidatos.length).fill(0)
   const lotes = progresso * LOTES
@@ -90,7 +92,7 @@ export function simular(r: Resultado): Resultado {
 
   if (progresso >= 1) {
     const vagas = Math.max(1, r.vagas)
-    const segundoTurno = (r.cargo === 1 || r.cargo === 3) && candidatos[0].percentual <= 50
+    const segundoTurno = r.turno === 1 && (r.cargo === 1 || r.cargo === 3) && candidatos[0].percentual <= 50
     candidatos.forEach((c, i) => {
       if (segundoTurno && i < 2) c.situacao = '2º turno'
       else if (!segundoTurno && i < vagas) {

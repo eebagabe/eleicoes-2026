@@ -1,16 +1,18 @@
 import { buscarResultado, type Resultado } from '../api/tse'
+import type { Turno } from '../config'
 import { corPartido } from '../data/partidos'
 import { UFS } from '../data/ufs'
 import { usePolling } from '../hooks/usePolling'
 import { formatPct, titleCase } from '../utils/format'
 
 interface Props {
+  turno?: Turno
   selecionada?: string
   onSelect: (sigla: string) => void
 }
 
-async function buscarTodas(signal: AbortSignal) {
-  const resultados = await Promise.allSettled(UFS.map((u) => buscarResultado(1, u.sigla, 1, signal)))
+async function buscarTodas(turno: Turno, signal: AbortSignal) {
+  const resultados = await Promise.allSettled(UFS.map((u) => buscarResultado(1, u.sigla, turno, signal)))
   const mapa: Record<string, Resultado> = {}
   resultados.forEach((r, i) => {
     if (r.status === 'fulfilled') mapa[UFS[i].sigla] = r.value
@@ -19,8 +21,8 @@ async function buscarTodas(signal: AbortSignal) {
 }
 
 /** Mapa em grade (tile map) com o candidato a presidente que lidera em cada UF. */
-export function MapaBrasil({ selecionada, onSelect }: Props) {
-  const { data } = usePolling('mapa-presidente', buscarTodas)
+export function MapaBrasil({ turno = 1, selecionada, onSelect }: Props) {
+  const { data } = usePolling(`mapa-presidente-${turno}`, (signal) => buscarTodas(turno, signal))
 
   const lideres = new Map<string, { nome: string; partido: string; cor: string; pct: number; apurado: number }>()
   for (const u of UFS) {

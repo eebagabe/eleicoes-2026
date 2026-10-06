@@ -49,7 +49,8 @@ export function Layout() {
             <NavLink to="/" end>
               Presidente
             </NavLink>
-            <NavLink to="/estados">Estados</NavLink>
+            <NavLink to="/governadores">Governadores</NavLink>
+            <NavLink to="/1-turno">1º turno</NavLink>
             <NavLink to="/noticias">Notícias</NavLink>
           </nav>
         </div>
