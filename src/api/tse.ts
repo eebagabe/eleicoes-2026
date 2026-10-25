@@ -112,7 +112,9 @@ export function resultadoUrl(cargo: CargoId, abrangencia: string, turno: Turno =
 
 export function fotoUrl(cargo: CargoId, abrangencia: string, sqcand: string, turno: Turno = 1) {
   const ele = eleicaoCodigo(cargo, turno)
-  return `${TSE_BASE}/${CICLO}/${ele}/fotos/${abrangencia.toLowerCase()}/${sqcand}.jpeg`
+  // TSE só publica foto de presidente na pasta nacional, mesmo no resultado por UF
+  const abr = cargo === 1 ? 'br' : abrangencia.toLowerCase()
+  return `${TSE_BASE}/${CICLO}/${ele}/fotos/${abr}/${sqcand}.jpeg`
 }
 
 export function normalizar(raw: RawResultado, cargo: CargoId, turno: Turno): Resultado {
