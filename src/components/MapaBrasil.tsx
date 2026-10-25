@@ -23,6 +23,12 @@ async function buscarTodas(turno: Turno, signal: AbortSignal) {
 /** Mapa em grade (tile map) com o candidato a presidente que lidera em cada UF. */
 export function MapaBrasil({ turno = 1, selecionada, onSelect }: Props) {
   const { data } = usePolling(`mapa-presidente-${turno}`, (signal) => buscarTodas(turno, signal))
+  // 1º turno só serve de base para as viradas; muda pouco, então atualiza devagar
+  const { data: primeiro } = usePolling(
+    `mapa-presidente-1${turno === 1 ? '-off' : ''}`,
+    async (signal) => (turno === 2 ? buscarTodas(1, signal) : ({} as Record<string, Resultado>)),
+    5 * 60_000,
+  )
 
   const lideres = new Map<string, { nome: string; partido: string; cor: string; pct: number; apurado: number }>()
   for (const u of UFS) {
@@ -39,6 +45,14 @@ export function MapaBrasil({ turno = 1, selecionada, onSelect }: Props) {
     }
   }
 
+  const viradas = UFS.flatMap((u) => {
+    const r2 = data?.[u.sigla]
+    const v1 = primeiro?.[u.sigla]?.candidatos[0]
+    const [a, b] = r2?.candidatos ?? []
+    if (turno !== 2 || !r2 || !v1 || !a || a.votos === 0 || a.nome === v1.nome) return []
+    return [{ uf: u, antes: v1, agora: a, vantagem: a.percentual - (b?.percentual ?? 0), apurado: r2.secoes.percentual }]
+  }).sort((x, y) => y.vantagem - x.vantagem)
+
   const legenda = new Map<string, { nome: string; cor: string; ufs: number }>()
   for (const l of lideres.values()) {
     const item = legenda.get(l.nome) ?? { nome: `${l.nome} (${l.partido})`, cor: l.cor, ufs: 0 }
@@ -47,38 +61,71 @@ export function MapaBrasil({ turno = 1, selecionada, onSelect }: Props) {
   }
 
   return (
-    <section className="card mapa">
-      <h3 className="secao-titulo">Quem lidera em cada estado</h3>
-      <div className="mapa-grid">
-        {UFS.map((u) => {
-          const l = lideres.get(u.sigla)
-          return (
-            <button
-              key={u.sigla}
-              className={`mapa-uf ${selecionada === u.sigla ? 'ativo' : ''}`}
-              style={{ gridColumn: u.grid[0], gridRow: u.grid[1], background: l?.cor }}
-              title={l ? `${u.nome}: ${l.nome} ${formatPct(l.pct)} (${formatPct(l.apurado)} apurado)` : u.nome}
-              onClick={() => onSelect(u.sigla)}
-            >
-              <strong>{u.sigla}</strong>
-              {l && <small>{Math.round(l.pct)}%</small>}
-            </button>
-          )
-        })}
-      </div>
-      {legenda.size > 0 ? (
-        <div className="mapa-legenda">
-          {[...legenda.values()]
-            .sort((a, b) => b.ufs - a.ufs)
-            .map((l) => (
-              <span key={l.nome}>
-                <i style={{ background: l.cor }} /> {l.nome}: {l.ufs} UF{l.ufs > 1 ? 's' : ''}
-              </span>
-            ))}
+    <>
+      <section className="card mapa">
+        <h3 className="secao-titulo">Quem lidera em cada estado</h3>
+        <div className="mapa-grid">
+          {UFS.map((u) => {
+            const l = lideres.get(u.sigla)
+            const r = data?.[u.sigla]
+            return (
+              <button
+                key={u.sigla}
+                className={`mapa-uf ${selecionada === u.sigla ? 'ativo' : ''}`}
+                style={{ gridColumn: u.grid[0], gridRow: u.grid[1], background: l?.cor }}
+                title={l ? `${u.nome}: ${l.nome} ${formatPct(l.pct)} (${formatPct(l.apurado)} apurado)` : u.nome}
+                onClick={() => onSelect(u.sigla)}
+              >
+                <strong>{u.sigla}</strong>
+                {l && <span>{Math.round(l.pct)}%</span>}
+                {r && <small>{Math.round(r.secoes.percentual)}% apur.</small>}
+              </button>
+            )
+          })}
         </div>
-      ) : (
-        <p className="mapa-vazio">As cores aparecem assim que os primeiros votos forem totalizados. Clique num estado para ver o resultado local.</p>
+        {legenda.size > 0 ? (
+          <div className="mapa-legenda">
+            {[...legenda.values()]
+              .sort((a, b) => b.ufs - a.ufs)
+              .map((l) => (
+                <span key={l.nome}>
+                  <i style={{ background: l.cor }} /> {l.nome}: {l.ufs} UF{l.ufs > 1 ? 's' : ''}
+                </span>
+              ))}
+          </div>
+        ) : (
+          <p className="mapa-vazio">
+            As cores aparecem assim que os primeiros votos forem totalizados. Clique num estado para ver o resultado local.
+          </p>
+        )}
+      </section>
+      {turno === 2 && (
+        <section className="card viradas">
+          <h3 className="secao-titulo">Estados que viraram</h3>
+          {viradas.length === 0 ? (
+            <p className="mapa-vazio">Nenhum estado com líder diferente do vencedor do 1º turno até agora.</p>
+          ) : (
+            <ol>
+              {viradas.map((v) => (
+                <li key={v.uf.sigla}>
+                  <button onClick={() => onSelect(v.uf.sigla)}>
+                    <strong>{v.uf.nome}</strong>
+                    <span>
+                      1º turno: <b style={{ color: corPartido(v.antes.partido) }}>{titleCase(v.antes.nome)}</b>{' '}
+                      {formatPct(v.antes.percentual)}
+                    </span>
+                    <span>
+                      Agora: <b style={{ color: corPartido(v.agora.partido) }}>{titleCase(v.agora.nome)}</b>{' '}
+                      {formatPct(v.agora.percentual)} (+
+                      {formatPct(v.vantagem)} de vantagem, {formatPct(v.apurado)} apurado)
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
       )}
-    </section>
+    </>
   )
 }

@@ -249,8 +249,7 @@ select:focus, input[type='search']:focus {
 /* ---------- Mapa ---------- */
 .mapa-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 48px));
-  grid-auto-rows: 48px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 4px;
   justify-content: center;
 }
@@ -265,21 +264,28 @@ select:focus, input[type='search']:focus {
   align-items: center;
   justify-content: center;
   line-height: 1.15;
+  aspect-ratio: 1;
+  padding: 0;
   transition: opacity 0.15s;
 }
 .mapa-uf strong { font-weight: 600; }
 .mapa-uf[style*='background'] { color: #fff; }
 .mapa-uf:hover { opacity: 0.8; }
 .mapa-uf.ativo { outline: 2px solid var(--amarelo); outline-offset: 2px; }
-.mapa-uf small { font-size: 0.68rem; opacity: 0.9; }
+.mapa-uf span { font-size: 0.78rem; }
+.mapa-uf small { font-size: 0.6rem; opacity: 0.85; white-space: nowrap; }
 .mapa-legenda { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 14px; font-size: 0.82rem; color: var(--text-muted); justify-content: center; }
 .mapa-legenda i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 2px; }
 .mapa-vazio { margin: 12px 0 0; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
 @media (max-width: 420px) {
-  .mapa-grid { grid-template-columns: repeat(7, minmax(0, 40px)); grid-auto-rows: 40px; }
+  .mapa-uf small { font-size: 0.5rem; }
 }
+.viradas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.viradas button { width: 100%; text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); color: var(--text-muted); font-size: 0.82rem; }
+.viradas button:hover { opacity: 0.8; }
+.viradas strong { color: var(--text); font-size: 0.9rem; }
 
-.layout-presidente { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 24px; align-items: start; }
+.layout-presidente { display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 24px; align-items: start; }
 .lateral { display: flex; flex-direction: column; gap: 24px; }
 @media (max-width: 960px) {
   .layout-presidente { grid-template-columns: 1fr; }
