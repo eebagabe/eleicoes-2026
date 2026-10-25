@@ -280,6 +280,13 @@ select:focus, input[type='search']:focus {
 @media (max-width: 420px) {
   .mapa-uf small { font-size: 0.5rem; }
 }
+.regioes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.regioes li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 0.85rem; color: var(--text-muted); }
+.regioes strong { color: var(--text); }
+.regiao-lider { text-align: right; }
+.regiao-barra { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.regiao-barra i { display: block; height: 100%; background: var(--text-muted); }
+.regioes small { grid-column: 1 / -1; font-size: 0.75rem; }
 .viradas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .viradas button { width: 100%; text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); color: var(--text-muted); font-size: 0.82rem; }
 .viradas button:hover { opacity: 0.8; }

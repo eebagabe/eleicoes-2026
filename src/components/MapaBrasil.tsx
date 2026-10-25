@@ -45,6 +45,32 @@ export function MapaBrasil({ turno = 1, selecionada, onSelect }: Props) {
     }
   }
 
+  // soma votos e seções das UFs de cada região
+  const regioes = (['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'] as const).map((nome) => {
+    let secoes = 0
+    let totalizadas = 0
+    let validos = 0
+    const votos = new Map<string, { nome: string; partido: string; votos: number }>()
+    for (const u of UFS) {
+      const r = data?.[u.sigla]
+      if (u.regiao !== nome || !r) continue
+      secoes += r.secoes.total
+      totalizadas += r.secoes.totalizadas
+      validos += r.votos.validos
+      for (const c of r.candidatos) {
+        const item = votos.get(c.nome) ?? { nome: c.nome, partido: c.partido, votos: 0 }
+        item.votos += c.votos
+        votos.set(c.nome, item)
+      }
+    }
+    const lider = [...votos.values()].sort((a, b) => b.votos - a.votos)[0]
+    return {
+      nome,
+      apurado: secoes ? (totalizadas / secoes) * 100 : 0,
+      lider: lider && lider.votos > 0 ? { ...lider, pct: (lider.votos / validos) * 100 } : undefined,
+    }
+  })
+
   const viradas = UFS.flatMap((u) => {
     const r2 = data?.[u.sigla]
     const v1 = primeiro?.[u.sigla]?.candidatos[0]
@@ -98,6 +124,29 @@ export function MapaBrasil({ turno = 1, selecionada, onSelect }: Props) {
             As cores aparecem assim que os primeiros votos forem totalizados. Clique num estado para ver o resultado local.
           </p>
         )}
+      </section>
+      <section className="card regioes">
+        <h3 className="secao-titulo">Apuração por região</h3>
+        <ul>
+          {regioes.map((g) => (
+            <li key={g.nome}>
+              <strong>{g.nome}</strong>
+              <span className="regiao-lider">
+                {g.lider ? (
+                  <>
+                    <b style={{ color: corPartido(g.lider.partido) }}>{titleCase(g.lider.nome)}</b> {formatPct(g.lider.pct)}
+                  </>
+                ) : (
+                  'Sem votos ainda'
+                )}
+              </span>
+              <span className="regiao-barra" title={`${formatPct(g.apurado)} apurado`}>
+                <i style={{ width: `${g.apurado}%` }} />
+              </span>
+              <small>{formatPct(g.apurado)} apurado</small>
+            </li>
+          ))}
+        </ul>
       </section>
       {turno === 2 && (
         <section className="card viradas">
